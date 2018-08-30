@@ -38,9 +38,9 @@ class Controller extends \Mim\Controller
     }
 
     public function show500(object $error): void{
-        $data = is_dev() ? $error : null;
-        if($data)
-            unset($data->text);
+        $data = null;
+        if(is_dev())
+            $data = $error;
         $this->resp(500, $data, $error->text);
     }
 
