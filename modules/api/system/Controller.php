@@ -38,11 +38,14 @@ class Controller extends \Mim\Controller
     }
 
     public function show500(object $error): void{
-        $this->resp(500);
+        $data = is_dev() ? $error : null;
+        if($data)
+            unset($data->text);
+        $this->resp(500, $data, $error->text);
     }
 
-    public function show500Action(object $error): void{
-        $this->show500();
+    public function show500Action(): void{
+        $this->show500(\Mim\Library\Logger::$last_error);
     }
 
     public function resp(int $error=0, $data=null, string $message=null, array $meta=null){
