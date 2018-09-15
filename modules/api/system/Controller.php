@@ -53,11 +53,12 @@ class Controller extends \Mim\Controller
             $meta = [];
         
         $meta['error'] = $error;
-        $meta['data']  = $data;
 
         if(!$message)
             $message = $this->messageByError($error);
         $meta['message'] = $message;
+        
+        $meta['data']  = $data;
         
         $this->res->addContent(json_encode($meta));
         $this->res->addHeader('Content-Type', 'application/json', false);
