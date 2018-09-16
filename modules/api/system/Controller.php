@@ -60,7 +60,7 @@ class Controller extends \Mim\Controller
         
         $meta['data']  = $data;
         
-        $this->res->addContent(json_encode($meta));
+        $this->res->addContent(json_encode($meta, JSON_PRESERVE_ZERO_FRACTION));
         $this->res->addHeader('Content-Type', 'application/json', false);
         $this->res->send();
     }
