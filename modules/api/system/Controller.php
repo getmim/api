@@ -64,7 +64,7 @@ class Controller extends \Mim\Controller
         $this->res->addHeader('Content-Type', 'application/json', false);
         $this->res->addHeader('Access-Control-Allow-Origin', '*');
         $this->res->addHeader('Access-Control-Allow-Methods', 'POST, GET, PUT, OPTIONS, DELETE');
-        $this->res->addHeader('Access-Control-Allow-Headers', 'Authorization');
+        $this->res->addHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
         $this->res->send();
     }
 }
