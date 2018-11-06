@@ -21,8 +21,15 @@ return [
         'classes' => [
             'Api\\Controller' => [
                 'type' => 'file',
-                'base' => 'modules/api/system/Controller.php',
-                'children' => 'modules/api/controller'
+                'base' => 'modules/api/system/Controller.php'
+            ],
+            'Api\\Middleware' => [
+                'type' => 'file',
+                'base' => 'modules/api/system/Middleware.php'
+            ],
+            'Api\\Library' => [
+                'type' => 'file',
+                'base' => 'modules/api/library'
             ]
         ],
         'files' => []
