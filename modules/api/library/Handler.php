@@ -41,8 +41,12 @@ class Handler
         
         $meta['data']  = $data;
         
-        $self->res->addContent(json_encode($meta, JSON_PRESERVE_ZERO_FRACTION));
+        $content = json_encode($meta, JSON_PRESERVE_ZERO_FRACTION);
+
+        $self->res->addContent($content);
         $self->res->addHeader('Content-Type', 'application/json', false);
+        $self->res->addHeader('Connection', 'close');
+        $self->res->addHeader('Content-Length', strlen($content));
         $self->res->addHeader('Access-Control-Allow-Origin', '*');
         $self->res->addHeader('Access-Control-Allow-Methods', 'POST, GET, PUT, OPTIONS, DELETE');
         $self->res->addHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
