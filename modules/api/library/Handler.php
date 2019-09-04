@@ -32,6 +32,9 @@ class Handler
     static function resp($self, int $error=0, $data=null, string $message=null, array $meta=null): void{
         if(is_null($meta))
             $meta = [];
+
+        if($error == 200)
+            $error = 0;
         
         $meta['error'] = $error;
 
@@ -47,9 +50,9 @@ class Handler
         $self->res->addHeader('Content-Type', 'application/json', false);
         $self->res->addHeader('Connection', 'close');
         $self->res->addHeader('Content-Length', strlen($content));
-        $self->res->addHeader('Access-Control-Allow-Origin', '*');
-        $self->res->addHeader('Access-Control-Allow-Methods', 'POST, GET, PUT, OPTIONS, DELETE');
-        $self->res->addHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
+        // $self->res->addHeader('Access-Control-Allow-Origin', '*');
+        // $self->res->addHeader('Access-Control-Allow-Methods', 'POST, GET, PUT, OPTIONS, DELETE');
+        // $self->res->addHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
         $self->res->send();
     }
 }
