@@ -34,7 +34,7 @@ Semua route handler harus meng-*extends* dari `Api\Controller`.
 
 Kontroler `Api\Controller` menambah satu method dengan nama:
 
-### resp(int $error=0, mixed $data, string $message, array $meta=[])
+### resp(int $error=0, $data=null, string $message=null, array $meta=null): void
 
 Fungsi untuk menggenerasi response dan mengirimkan data ke user dalam bentuk
-json.
+json. Nilai `200` pada parameter `$error` akan diubah menjadi `0`.

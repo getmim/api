@@ -30,21 +30,23 @@ class Handler
     }
 
     static function resp($self, int $error=0, $data=null, string $message=null, array $meta=null): void{
-        if(is_null($meta))
-            $meta = [];
+        $result = [];
 
         if($error == 200)
             $error = 0;
         
-        $meta['error'] = $error;
+        $result['error'] = $error;
 
         if(!$message)
             $message = self::messageByError($error);
-        $meta['message'] = $message;
+        $result['message'] = $message;
         
-        $meta['data']  = $data;
+        $result['data']  = $data;
+
+        if($meta)
+            $result = array_merge($result, $meta);
         
-        $content = json_encode($meta, JSON_PRESERVE_ZERO_FRACTION);
+        $content = json_encode($result, JSON_PRESERVE_ZERO_FRACTION);
 
         $self->res->addContent($content);
         $self->res->addHeader('Content-Type', 'application/json', false);
