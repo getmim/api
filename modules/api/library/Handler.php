@@ -7,9 +7,9 @@
 
 namespace Api\Library;
 
-class Handler
+class Handler implements \Api\Iface\Response
 {
-    private static function messageByError(int $code): string{
+    static function messageByError(int $code): string{
         $errors = [
             0   => 'OK',
             200 => 'OK',
@@ -29,32 +29,18 @@ class Handler
         return $errors[$code] ?? 'Unknow';
     }
 
-    static function resp($self, int $error=0, $data=null, string $message=null, array $meta=null): void{
-        $result = [];
-
-        if($error == 200)
-            $error = 0;
+    static function resp($self, int $error=0, $data=null, string $message=null, array $meta=null): array{
+        $result = [
+            'error'   => $error,
+            'message' => $message,
+            'data'    => $data
+        ];
         
-        $result['error'] = $error;
-
-        if(!$message)
-            $message = self::messageByError($error);
-        $result['message'] = $message;
-        
-        $result['data']  = $data;
-
         if($meta)
             $result = array_merge($result, $meta);
-        
+
         $content = json_encode($result, JSON_PRESERVE_ZERO_FRACTION);
 
-        $self->res->addContent($content);
-        $self->res->addHeader('Content-Type', 'application/json', false);
-        $self->res->addHeader('Connection', 'close');
-        $self->res->addHeader('Content-Length', strlen($content));
-        // $self->res->addHeader('Access-Control-Allow-Origin', '*');
-        // $self->res->addHeader('Access-Control-Allow-Methods', 'POST, GET, PUT, OPTIONS, DELETE');
-        // $self->res->addHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
-        $self->res->send();
+        return [$content, 'application/json'];
     }
 }

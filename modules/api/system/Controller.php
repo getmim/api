@@ -32,6 +32,34 @@ class Controller extends \Mim\Controller
     }
 
     public function resp(int $error=0, $data=null, string $message=null, array $meta=null): void{
-        Handler::resp($this, $error, $data, $message, $meta);
+
+        if(is_null($message) && is_string($data)){
+            $message = $data;
+            $data = null;
+        }
+
+        if(!$message)
+            $message = Handler::messageByError($error);
+
+        if($error == 200)
+            $error = 0;
+
+        $resFormat = $this->config->api->resFormat ?? null;
+        if(!$resFormat)
+            $resFormat = 'Api\\Library\\Handler';
+        
+        list($content, $mime) = $resFormat::resp($this, $error, $data, $message, $meta);
+
+        $this->res->addHeader('Connection', 'close');
+        $this->res->addHeader('Content-Type', $mime, false);
+        $this->res->addHeader('Content-Length', strlen($content));
+
+        // $this->res->addHeader('Access-Control-Allow-Origin', '*');
+        // $this->res->addHeader('Access-Control-Allow-Methods', 'POST, GET, PUT, OPTIONS, DELETE');
+        // $this->res->addHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
+        
+        $this->res->addContent($content);
+
+        $this->res->send();
     }
 }

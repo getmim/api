@@ -2,7 +2,7 @@
 
 return [
     '__name' => 'api',
-    '__version' => '0.0.3',
+    '__version' => '0.1.0',
     '__git' => 'git@github.com:getmim/api.git',
     '__license' => 'MIT',
     '__author' => [
@@ -30,6 +30,10 @@ return [
             'Api\\Library' => [
                 'type' => 'file',
                 'base' => 'modules/api/library'
+            ],
+            'Api\\Iface' => [
+                'type' => 'file',
+                'base' => 'modules/api/interface'
             ]
         ],
         'files' => []
@@ -47,10 +51,10 @@ return [
     ],
     'routes' => [
         'api' => [
-            '404' => [
+            404 => [
                 'handler' => 'Api\\Controller::show404'
             ],
-            '500' => [
+            500 => [
                 'handler' => 'Api\\Controller::show500'
             ]
         ]
