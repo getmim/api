@@ -9,7 +9,8 @@ namespace Api\Library;
 
 class Handler implements \Api\Iface\Response
 {
-    static function messageByError(int $code): string{
+    public static function messageByError(int $code): string
+    {
         $errors = [
             0   => 'OK',
             200 => 'OK',
@@ -21,7 +22,10 @@ class Handler implements \Api\Iface\Response
             403 => 'Forbidden',
             404 => 'Not Found',
             405 => 'Method Not Allowed',
+            412 => 'Precondition Failed',
+            413 => 'Content Too Large',
             422 => 'Unprocessable Entity',
+            425 => 'Too Early',
             500 => 'Internal Server Error',
             501 => 'Not Implemented'
         ];
@@ -29,15 +33,22 @@ class Handler implements \Api\Iface\Response
         return $errors[$code] ?? 'Unknow';
     }
 
-    static function resp($self, int $error=0, $data=null, string $message=null, array $meta=null): array{
+    public static function resp(
+        $self,
+        int $error = 0,
+        $data = null,
+        string $message = null,
+        array $meta = null
+    ): array {
         $result = [
             'error'   => $error,
             'message' => $message,
             'data'    => $data
         ];
         
-        if($meta)
+        if ($meta) {
             $result = array_merge($result, $meta);
+        }
 
         $content = json_encode($result, JSON_PRESERVE_ZERO_FRACTION);
 
